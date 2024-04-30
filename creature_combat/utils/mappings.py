@@ -1,10 +1,10 @@
-import numpy as np
+from numpy import array
 
 
 # ROWS: Element of the attack, [0-17] as defined by the CreatureTypeEnum
 # COLS: Element of the receiving creature, [0, 17] as defined by the CreatureTypeEnum
 # MAP[ROW, COL] => The modifier applied to the damage calculation for an attack by ROW_ELEMENT on COL_ELEMENT 
-DAMAGE_MAP = np.array([
+DAMAGE_MAP = array([
     [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.5, 0.0, 1.0, 1.0, 0.5, 1.0],
     [1.0, 0.5, 0.5, 1.0, 2.0, 2.0, 1.0, 1.0, 1.0, 1.0, 1.0, 2.0, 0.5, 1.0, 0.5, 1.0, 2.0, 1.0],
     [1.0, 2.0, 0.5, 1.0, 0.5, 1.0, 1.0, 1.0, 2.0, 1.0, 1.0, 1.0, 2.0, 1.0, 0.5, 1.0, 1.0, 1.0],
@@ -29,29 +29,29 @@ DAMAGE_MAP = np.array([
 # ELement of the list corresponds to the Nature of the creature as defined by the CreatureNatureEnum
 # The array contains the modifiers for each stat based on the nature 
 NATURE_MODIFIER = [
-    np.array([0.1, 0.0, -0.1, 0.0, 0.0]), #Adamant 
-    np.array([0.0, 0.0, 0.0, 0.0, 0.0]), #Bashful
-    np.array([-0.1, 0.1, 0.0, 0.0, 0.0]), #Bold
-    np.array([0.1, 0.0, 0.0, 0.0, -0.1]), #Brave
-    np.array([-0.1, 0.0, 0.0, 0.1, 0.0]), #Calm
-    np.array([0.0, 0.0, -0.1, 0.1, 0.0]), #Careful
-    np.array([0.0, 0.0, 0.0, 0.0, 0.0]), #Docile
-    np.array([0.0, -0.1, 0.0, 0.1, 0.0]), #Gentile
-    np.array([0.0, 0.0, 0.0, 0.0, 0.0]), #Hardy
-    np.array([0.0, -0.1, 0.0, 0.0, 0.1]), #Hasty
-    np.array([0.0, 0.1, -0.1, 0.0, 0.0]), #Impish
-    np.array([0.0, 0.0, -0.1, 0.0, 0.1]), #Jolly
-    np.array([0.0, 0.1, 0.0, -0.1, 0.0]), #Lax
-    np.array([0.1, -0.1, 0.0, 0.0, 0.0]), #Lonely
-    np.array([0.0, -0.1, 0.1, 0.0, 0.0]), #Mild
-    np.array([-0.1, 0.0, 0.1, 0.0, 0.0]), #Modest
-    np.array([0.0, 0.0, 0.0, -0.1, 0.1]), #Naive
-    np.array([0.1, 0.0, 0.0, -0.1, 0.0]), #Naughty
-    np.array([0.0, 0.0, 1.0, 0.0, -0.1]), #Quiet
-    np.array([0.0, 0.0, 0.0, 0.0, 0.0]), #Quirky
-    np.array([0.0, 0.0, 0.1, -0.1, 0.0]), #Rash
-    np.array([0.0, 0.1, 0.0, 0.0, -0.1]), #Relaxed
-    np.array([0.0, 0.0, 0.0, 0.1, -0.1]), #Sassy
-    np.array([0.0, 0.0, 0.0, 0.0, 0.0]), #Serious
-    np.array([-0.1, 0.0, 0.0, 0.0, 0.1]) #Timid
+    array([0.1, 0.0, -0.1, 0.0, 0.0]), #Adamant 
+    array([0.0, 0.0, 0.0, 0.0, 0.0]), #Bashful
+    array([-0.1, 0.1, 0.0, 0.0, 0.0]), #Bold
+    array([0.1, 0.0, 0.0, 0.0, -0.1]), #Brave
+    array([-0.1, 0.0, 0.0, 0.1, 0.0]), #Calm
+    array([0.0, 0.0, -0.1, 0.1, 0.0]), #Careful
+    array([0.0, 0.0, 0.0, 0.0, 0.0]), #Docile
+    array([0.0, -0.1, 0.0, 0.1, 0.0]), #Gentile
+    array([0.0, 0.0, 0.0, 0.0, 0.0]), #Hardy
+    array([0.0, -0.1, 0.0, 0.0, 0.1]), #Hasty
+    array([0.0, 0.1, -0.1, 0.0, 0.0]), #Impish
+    array([0.0, 0.0, -0.1, 0.0, 0.1]), #Jolly
+    array([0.0, 0.1, 0.0, -0.1, 0.0]), #Lax
+    array([0.1, -0.1, 0.0, 0.0, 0.0]), #Lonely
+    array([0.0, -0.1, 0.1, 0.0, 0.0]), #Mild
+    array([-0.1, 0.0, 0.1, 0.0, 0.0]), #Modest
+    array([0.0, 0.0, 0.0, -0.1, 0.1]), #Naive
+    array([0.1, 0.0, 0.0, -0.1, 0.0]), #Naughty
+    array([0.0, 0.0, 1.0, 0.0, -0.1]), #Quiet
+    array([0.0, 0.0, 0.0, 0.0, 0.0]), #Quirky
+    array([0.0, 0.0, 0.1, -0.1, 0.0]), #Rash
+    array([0.0, 0.1, 0.0, 0.0, -0.1]), #Relaxed
+    array([0.0, 0.0, 0.0, 0.1, -0.1]), #Sassy
+    array([0.0, 0.0, 0.0, 0.0, 0.0]), #Serious
+    array([-0.1, 0.0, 0.0, 0.0, 0.1]) #Timid
 ]
