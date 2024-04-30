@@ -1,0 +1,11 @@
+{
+    "name": "Growl",
+    "move_type": "STATUS",
+    "element": "NORMAL",
+    "power": null,
+    "accuracy": 100,
+    "high_crit_flag": false,
+    "self_effect": [null],
+    "opponent_effect": ["LOWER_P_ATK_1"],
+    "max_pp": 40
+}

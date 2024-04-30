@@ -1,0 +1,8 @@
+# Python files to remove
+__pycache__
+dist
+*.egg-info
+
+# Developer files to remove
+.venv
+.vscode

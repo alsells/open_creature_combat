@@ -1,0 +1,14 @@
+{
+    "name": "Squirtle",
+    "elements": [
+        "WATER", null
+    ],
+    "base_stats":{
+        "health_points": 44,
+        "physical_attack": 48,
+        "physical_defense": 65,
+        "special_attack": 50,
+        "special_defense": 64,
+        "speed": 43
+    }
+}

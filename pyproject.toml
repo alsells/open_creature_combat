@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=63.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pokemon_combat"
+version = "0.0.1"
+authors = [
+  { name="Alex Sells", email="author@example.com" },
+]
+description = "Open source python based battle engine replicating pokemon gen 6 combat."
+readme = "README.md"
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "numpy>=1.26.0",
+    "pyglm>=2.7.0",
+    "numba>=0.59.1"
+]
+[tool.setuptools.packages.find]
+include = ["pokemon_combat*"]
+exclude = ["move_data", "pokedex_data", "test*"]

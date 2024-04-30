@@ -1,0 +1,14 @@
+{
+    "name": "Bulbasaur",
+    "elements": [
+        "GRASS", "POISON"
+    ],
+    "base_stats":{
+        "health_points": 45,
+        "physical_attack": 49,
+        "physical_defense": 49,
+        "special_attack": 65,
+        "special_defense": 65,
+        "speed": 45
+    }
+}

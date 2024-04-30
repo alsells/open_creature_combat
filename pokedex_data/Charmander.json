@@ -1,0 +1,14 @@
+{
+    "name": "Charmander",
+    "elements": [
+        "FIRE", null
+    ],
+    "base_stats":{
+        "health_points": 39,
+        "physical_attack": 52,
+        "physical_defense": 43,
+        "special_attack": 60,
+        "special_defense": 50,
+        "speed": 65
+    }
+}

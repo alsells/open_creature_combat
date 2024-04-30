@@ -1,0 +1,11 @@
+{
+    "name": "Ember",
+    "move_type": "SPECIAL",
+    "element": "FIRE",
+    "power": 40,
+    "accuracy": 100,
+    "high_crit_flag": false,
+    "self_effect": [null],
+    "opponent_effect": ["DAMAGE", "BURN"],
+    "max_pp": 25
+}

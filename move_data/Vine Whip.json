@@ -1,0 +1,11 @@
+{
+    "name": "Vine Whip",
+    "move_type": "PHYSICAL",
+    "element": "GRASS",
+    "power": 45,
+    "accuracy": 100,
+    "high_crit_flag": false,
+    "self_effect": [null],
+    "opponent_effect": ["DAMAGE"],
+    "max_pp": 25
+}
