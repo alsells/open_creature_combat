@@ -1,10 +1,10 @@
 from typing import List
 
-from pokemon_combat.engine.player import Player
-from pokemon_combat.engine.participant import Participant
-from pokemon_combat.engine.combat_functions import calculate_damge, plarticipant_1_first, apply_status, does_hit
-from pokemon_combat.moves.move import Move
-from pokemon_combat.moves.move_types import MoveTypeEnum
+from creature_combat.engine.player import Player
+from creature_combat.engine.participant import Participant
+from creature_combat.engine.combat_functions import calculate_damge, plarticipant_1_first, apply_status, does_hit
+from creature_combat.moves.move import Move
+from creature_combat.moves.move_types import MoveTypeEnum
 
 
 class CombatManager:
@@ -16,8 +16,8 @@ class CombatManager:
         self.display_messages = display_messsages
     
     def reset(self, player_1: Player, player_2: Player):
-        player_1.swap_pokemon(None)
-        player_2.swap_pokemon(None)
+        player_1.swap_creature(None)
+        player_2.swap_creature(None)
         self.round_number = 0
         self.environment = None
         self.message_queue = [""]
@@ -40,10 +40,10 @@ class CombatManager:
         else:
             if does_hit(attacker_move, attacker, defender):
                 defender_damage = calculate_damge(attacker_move, attacker, defender)
-                self.message_queue.append(f"{attacker.pokemon.name} dealt {defender_damage:03d} damage to {defender.pokemon.name}")
+                self.message_queue.append(f"{attacker.creature.name} dealt {defender_damage:03d} damage to {defender.creature.name}")
                 defender.damage(defender_damage)
             else:
-                self.message_queue.append(f"{attacker.pokemon.name}'s attack missed!")
+                self.message_queue.append(f"{attacker.creature.name}'s attack missed!")
     
     def take_turn(self, player_1: Player, player_2: Player):
         self.round_number += 1
@@ -54,20 +54,20 @@ class CombatManager:
             self._apply_action(player_1_move, player_1.participant, player_2.participant)
             if player_2.participant.is_alive:
                 self._apply_action(player_2_move, player_2.participant, player_1.participant)
-            self.message_queue.append(f"{player_1.participant.pokemon.name} HP: {player_1.participant.pokemon.write_hp}")
-            self.message_queue.append(f"{player_2.participant.pokemon.name} HP: {player_2.participant.pokemon.write_hp}")
+            self.message_queue.append(f"{player_1.participant.creature.name} HP: {player_1.participant.creature.write_hp}")
+            self.message_queue.append(f"{player_2.participant.creature.name} HP: {player_2.participant.creature.write_hp}")
         else:
             self._apply_action(player_2_move, player_2.participant, player_1.participant)
             if player_1.participant.is_alive:
                 self._apply_action(player_1_move, player_1.participant, player_2.participant)
-            self.message_queue.append(f"{player_2.participant.pokemon.name} HP: {player_2.participant.pokemon.write_hp}")
-            self.message_queue.append(f"{player_1.participant.pokemon.name} HP: {player_1.participant.pokemon.write_hp}")
+            self.message_queue.append(f"{player_2.participant.creature.name} HP: {player_2.participant.creature.write_hp}")
+            self.message_queue.append(f"{player_1.participant.creature.name} HP: {player_1.participant.creature.write_hp}")
         if not player_1.participant.is_alive:
-            self.message_queue.append(f"{player_1.participant.pokemon.name} has fainted!")
-            player_1.swap_pokemon(player_2.participant)
+            self.message_queue.append(f"{player_1.participant.creature.name} has fainted!")
+            player_1.swap_creature(player_2.participant)
         if not player_2.participant.is_alive:
-            self.message_queue.append(f"{player_2.participant.pokemon.name} has fainted!")
-            player_2.swap_pokemon(player_1.participant)
+            self.message_queue.append(f"{player_2.participant.creature.name} has fainted!")
+            player_2.swap_creature(player_1.participant)
         self.message_queue.append(f"Round: {self.round_number:02d} completed!")
         if self.display_messages:
             self.message_queue.append("")

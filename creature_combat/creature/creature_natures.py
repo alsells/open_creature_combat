@@ -1,8 +1,8 @@
-from pokemon_combat.utils.extended_enums import ExtendedEnum
+from creature_combat.utils.extended_enums import ExtendedEnum
 
 
 
-class PokemonNatureEnum(ExtendedEnum):
+class CreatureNatureEnum(ExtendedEnum):
     ADAMANT:int=0
     BASHFUL:int=1
     BOLD:int=2

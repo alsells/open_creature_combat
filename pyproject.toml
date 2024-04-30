@@ -3,12 +3,12 @@ requires = ["setuptools>=63.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "pokemon_combat"
-version = "0.0.1"
+name = "creature_combat"
+version = "0.0.2"
 authors = [
   { name="Alex Sells", email="author@example.com" },
 ]
-description = "Open source python based battle engine replicating pokemon gen 6 combat."
+description = "Open source python based battle engine replicating creature gen 6 combat."
 readme = "README.md"
 requires-python = ">=3.10"
 classifiers = [
@@ -22,5 +22,5 @@ dependencies = [
     "numba>=0.59.1"
 ]
 [tool.setuptools.packages.find]
-include = ["pokemon_combat*"]
+include = ["creature_combat*"]
 exclude = ["move_data", "pokedex_data", "test*"]

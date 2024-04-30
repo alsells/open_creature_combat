@@ -1,27 +1,27 @@
 from numpy import array
 from typing import Tuple, Optional
 
-from pokemon_combat.pokemon.pokemon_base_stats import PokemonBaseStats
-from pokemon_combat.pokemon.pokemon_natures import PokemonNatureEnum
-from pokemon_combat.pokemon.effort_values import EffortValues
-from pokemon_combat.pokemon.pokemon_types import PokemonTypeEnum
-from pokemon_combat.pokemon.individual_values import IndividualValues
-from pokemon_combat.moves.move import Move
-from pokemon_combat.statuses.non_volatile_statuses import NonVolatileStatusEnum
-from pokemon_combat.utils.mappings import NATURE_MODIFIER
-from pokemon_combat.utils.math_utils import clip
+from creature_combat.creature.creature_base_stats import CreatureBaseStats
+from creature_combat.creature.creature_natures import CreatureNatureEnum
+from creature_combat.creature.effort_values import EffortValues
+from creature_combat.creature.creature_types import CreatureTypeEnum
+from creature_combat.creature.individual_values import IndividualValues
+from creature_combat.moves.move import Move
+from creature_combat.statuses.non_volatile_statuses import NonVolatileStatusEnum
+from creature_combat.utils.mappings import NATURE_MODIFIER
+from creature_combat.utils.math_utils import clip
 
 
-class Pokemon:
-    def __init__(self, name: str, level: int, base_stats: PokemonBaseStats, individual_values: IndividualValues, effort_values: EffortValues, nature: PokemonNatureEnum, 
-                 types: Tuple[PokemonTypeEnum, Optional[PokemonTypeEnum]], moves: Tuple[Move, Optional[Move], Optional[Move], Optional[Move]]):
+class creature:
+    def __init__(self, name: str, level: int, base_stats: CreatureBaseStats, individual_values: IndividualValues, effort_values: EffortValues, nature: CreatureNatureEnum, 
+                 types: Tuple[CreatureTypeEnum, Optional[CreatureTypeEnum]], moves: Tuple[Move, Optional[Move], Optional[Move], Optional[Move]]):
         self.name:str = name
         self.level:int = level
-        self._base_stats:PokemonBaseStats = base_stats
+        self._base_stats:CreatureBaseStats = base_stats
         self._individual_values:IndividualValues = individual_values
         self._effort_values:EffortValues = effort_values
-        self._nature:PokemonNatureEnum = nature
-        self._types:Tuple[PokemonTypeEnum, Optional[PokemonTypeEnum]] = types
+        self._nature:CreatureNatureEnum = nature
+        self._types:Tuple[CreatureTypeEnum, Optional[CreatureTypeEnum]] = types
         self._moves:Tuple[Move, Optional[Move], Optional[Move], Optional[Move]] = moves
         self._compute_stats()
         self._status: NonVolatileStatusEnum = NonVolatileStatusEnum.NONE

@@ -1,11 +1,11 @@
-from pokemon_combat.pokemon.pokemon import Pokemon
-from pokemon_combat.moves.move import Move
-from pokemon_combat.statuses.non_volatile_statuses import NonVolatileStatusEnum
-from pokemon_combat.utils.math_utils import clip
+from creature_combat.creature.creature import creature
+from creature_combat.moves.move import Move
+from creature_combat.statuses.non_volatile_statuses import NonVolatileStatusEnum
+from creature_combat.utils.math_utils import clip
 
 class Participant:
     def __init__(self):
-        self.pokemon: Pokemon = None
+        self.creature: creature = None
         self.reset_stage()
         
     def reset_stage(self) -> None:
@@ -19,7 +19,7 @@ class Participant:
         self._crit_stage:int = 0
 
     def _adjust_hp(self, ammount: int) -> None:
-        self.pokemon._current_hp = clip(self.pokemon.current_hp+ammount, 0, self.pokemon.max_hp)
+        self.creature._current_hp = clip(self.creature.current_hp+ammount, 0, self.creature.max_hp)
     
     def heal(self, ammount: int) -> None:
         self._adjust_hp(ammount)
@@ -51,86 +51,86 @@ class Participant:
     def adjust_crit_stage(self, ammount: int) -> None:
         self._crit_stage = clip(self.crit_stage + ammount, 0, 6)
         
-    def remove_pokemon(self) -> None:
-        self.pokemon = None
+    def remove_creature(self) -> None:
+        self.creature = None
         self.reset_stage()
         
-    def add_pokemon(self, pokemon: Pokemon) -> None:
-        self.pokemon = pokemon
+    def add_creature(self, creature: creature) -> None:
+        self.creature = creature
         
     def apply_status(self, status: NonVolatileStatusEnum) -> None:
-        if self.pokemon.status.value == -1:
-            self.pokemon._status = status
+        if self.creature.status.value == -1:
+            self.creature._status = status
 
     def remove_status(self) -> None:
-        self.pokemon._status = NonVolatileStatusEnum.NONE
+        self.creature._status = NonVolatileStatusEnum.NONE
         
     def can_make_move(self, move_name: str) -> bool:
-        remaining_pp = self.pokemon._remaining_pp.get(move_name, None)
+        remaining_pp = self.creature._remaining_pp.get(move_name, None)
         return remaining_pp is not None and remaining_pp > 0
     
     def make_move(self, move_name: str) -> Move:
-        self.pokemon._remaining_pp[move_name] -= 1
-        move = [pm for pm in self.pokemon._moves if pm is not None and pm.name == move_name][0]
+        self.creature._remaining_pp[move_name] -= 1
+        move = [pm for pm in self.creature._moves if pm is not None and pm.name == move_name][0]
         return move
     
     @property
     def is_alive(self) -> bool:
-        return self.pokemon if self.pokemon is None else self.pokemon.is_alive
+        return self.creature if self.creature is None else self.creature.is_alive
     
     @property
     def lvl(self) -> int:
-        return 0 if self.pokemon is None else self.pokemon.level
+        return 0 if self.creature is None else self.creature.level
     
     @property
     def p_atk_stage(self) -> int:
-        return 0 if self.pokemon is None else self._p_atk_stage 
+        return 0 if self.creature is None else self._p_atk_stage 
     
     @property
     def p_atk(self) -> int:
-        return 0 if self.pokemon is None else self.pokemon.p_atk
+        return 0 if self.creature is None else self.creature.p_atk
     
     @property
     def p_def_stage(self) -> int:
-        return 0 if self.pokemon is None else self._p_def_stage
+        return 0 if self.creature is None else self._p_def_stage
     
     @property
     def p_def(self) -> int:
-        return 0 if self.pokemon is None else self.pokemon.p_def
+        return 0 if self.creature is None else self.creature.p_def
     
     @property
     def s_atk_stage(self) -> int:
-        return 0 if self.pokemon is None else self._s_atk_stage
+        return 0 if self.creature is None else self._s_atk_stage
     
     @property
     def s_atk(self) -> int:
-        return 0 if self.pokemon is None else self.pokemon.s_atk
+        return 0 if self.creature is None else self.creature.s_atk
     
     @property
     def s_def_stage(self) -> int:
-        return 0 if self.pokemon is None else self._s_def_stage
+        return 0 if self.creature is None else self._s_def_stage
     
     @property
     def s_def(self) -> int:
-        return 0 if self.pokemon is None else self.pokemon.s_def
+        return 0 if self.creature is None else self.creature.s_def
     
     @property
     def spd_stage(self) -> int:
-        return 0 if self.pokemon is None else self._spd_stage
+        return 0 if self.creature is None else self._spd_stage
     
     @property
     def spd(self) -> int:
-        return 0 if self.pokemon is None else self.pokemon.spd
+        return 0 if self.creature is None else self.creature.spd
     
     @property
     def acc_stage(self) -> int:
-        return 0 if self.pokemon is None else self._acc_stage
+        return 0 if self.creature is None else self._acc_stage
     
     @property
     def eva_stage(self) -> int:
-        return 0 if self.pokemon is None else self._eva_stage
+        return 0 if self.creature is None else self._eva_stage
     
     @property
     def crit_stage(self) -> int:
-        return 0 if self.pokemon is None else self._crit_stage
+        return 0 if self.creature is None else self._crit_stage
     

@@ -1,7 +1,7 @@
-from pokemon_combat.utils.extended_enums import ExtendedEnum
+from creature_combat.utils.extended_enums import ExtendedEnum
 
 
-class PokemonTypeEnum(ExtendedEnum):
+class CreatureTypeEnum(ExtendedEnum):
     NORMAL:int=0
     FIRE:int=1
     WATER:int=2

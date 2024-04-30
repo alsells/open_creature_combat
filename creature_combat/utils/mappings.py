@@ -1,8 +1,8 @@
 import numpy as np
 
 
-# ROWS: Element of the attack, [0-17] as defined by the PokemonTypeEnum
-# COLS: Element of the receiving pokemon, [0, 17] as defined by the PokemonTypeEnum
+# ROWS: Element of the attack, [0-17] as defined by the CreatureTypeEnum
+# COLS: Element of the receiving creature, [0, 17] as defined by the CreatureTypeEnum
 # MAP[ROW, COL] => The modifier applied to the damage calculation for an attack by ROW_ELEMENT on COL_ELEMENT 
 DAMAGE_MAP = np.array([
     [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.5, 0.0, 1.0, 1.0, 0.5, 1.0],
@@ -26,7 +26,7 @@ DAMAGE_MAP = np.array([
 ])
 
 
-# ELement of the list corresponds to the Nature of the pokemon as defined by the PokemonNatureEnum
+# ELement of the list corresponds to the Nature of the creature as defined by the CreatureNatureEnum
 # The array contains the modifiers for each stat based on the nature 
 NATURE_MODIFIER = [
     np.array([0.1, 0.0, -0.1, 0.0, 0.0]), #Adamant 

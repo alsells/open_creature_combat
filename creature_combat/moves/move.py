@@ -3,16 +3,16 @@ from json import load
 from pathlib import Path
 from typing import Optional, List, Dict, Any
 from typing_extensions import Self
-from pokemon_combat.moves.move_effects import MoveEffectEnum
-from pokemon_combat.moves.move_types import MoveTypeEnum
-from pokemon_combat.pokemon.pokemon_types import PokemonTypeEnum
+from creature_combat.moves.move_effects import MoveEffectEnum
+from creature_combat.moves.move_types import MoveTypeEnum
+from creature_combat.creature.creature_types import CreatureTypeEnum
 
 
 @dataclass
 class Move:
     name: str
     move_type: MoveTypeEnum
-    element: PokemonTypeEnum
+    element: CreatureTypeEnum
     power: Optional[int]
     accuracy: Optional[int]
     high_crit_flag:bool
@@ -25,7 +25,7 @@ class Move:
     @classmethod
     def from_dict(cls, config: Dict[str, Any]) -> Self:
         config['move_type'] = MoveTypeEnum.init_from_key_or_value(config['move_type'])
-        config['element'] = PokemonTypeEnum.init_from_key_or_value(config['element'])
+        config['element'] = CreatureTypeEnum.init_from_key_or_value(config['element'])
         config['self_effect'] = [MoveEffectEnum.init_from_key_or_value(se) for se in config['self_effect'] if se is not None]
         config['opponent_effect'] = [MoveEffectEnum.init_from_key_or_value(oe) for oe in config['opponent_effect'] if oe is not None]
         return cls(**config)

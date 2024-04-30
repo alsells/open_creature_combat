@@ -1,9 +1,9 @@
 from numpy.random import randint, uniform
-from pokemon_combat.engine.participant import Participant
-from pokemon_combat.moves.move import Move
-from pokemon_combat.moves.move_types import MoveTypeEnum
-from pokemon_combat.utils.math_utils import clip
-from pokemon_combat.utils.mappings import DAMAGE_MAP
+from creature_combat.engine.participant import Participant
+from creature_combat.moves.move import Move
+from creature_combat.moves.move_types import MoveTypeEnum
+from creature_combat.utils.math_utils import clip
+from creature_combat.utils.mappings import DAMAGE_MAP
 
 
 def does_hit(move: Move, attacker: Participant, defender: Participant) -> bool:
@@ -36,7 +36,7 @@ def stat_stage_modifier(stage: int) -> float:
 
 def get_type_modifier(move: Move, target: Participant) -> float:
     mod = 1.0
-    for target_type in target.pokemon._types:
+    for target_type in target.creature._types:
         if target_type is not None:
             mod *= DAMAGE_MAP[move.element.value, target_type.value]
     return mod
@@ -56,7 +56,7 @@ def calculate_damge(move: Move, attacker: Participant, defender: Participant) ->
             d = 0
     if a == 0 and d == 0:
         return 0
-    stab = 1.5 if attacker.pokemon.is_stab(move) else 1.0
+    stab = 1.5 if attacker.creature.is_stab(move) else 1.0
     power = move.power * stab
     base = ((2 * attacker.lvl) / 5 + 2) * power * (a / d) / 50 + 2
     crit = 1.5 if does_crit(move, attacker) else 1.0

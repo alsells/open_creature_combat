@@ -1,7 +1,7 @@
 from pathlib import Path
 from os import listdir
 from typing import Set
-from pokemon_combat.moves.move import Move
+from creature_combat.moves.move import Move
 
 
 class MoveList:

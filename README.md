@@ -1,2 +1,2 @@
-## Open Pokemon Combat Engine
-Open-source python toolkit to simulate pokemon combat. 
+## Open Creature Combat Engine
+Open-source python toolkit to simulate creature combat. 

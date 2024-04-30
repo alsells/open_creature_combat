@@ -1,4 +1,4 @@
-from pokemon_combat.utils.extended_enums import ExtendedEnum
+from creature_combat.utils.extended_enums import ExtendedEnum
 
 
 class MoveEffectEnum(ExtendedEnum):

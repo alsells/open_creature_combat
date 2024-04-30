@@ -5,7 +5,7 @@ from dataclasses import dataclass
 
 
 @dataclass
-class PokemonBaseStats:
+class CreatureBaseStats:
     health_points: uint8
     physical_attack: uint8
     physical_defense: uint8
