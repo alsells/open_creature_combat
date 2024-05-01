@@ -17,7 +17,7 @@ class SuperEffectivePlayer(Player):
                     return creature
         else:
             return available_creature[0] if len(available_creature) > 0 else None
-        
+
     def make_move(self, opponent: Participant) -> Move:
         mutable_moves: List[Move] = list(self.participant.creature._moves)
         mutable_moves = [mm for mm in mutable_moves if mm is not None]
@@ -28,11 +28,12 @@ class SuperEffectivePlayer(Player):
                     return self.participant.make_move(move.name)
         else:
             return self.participant.make_move(mutable_moves[0].name)
-        
-        
+
+
 class TextBasePlayer(Player):
     def choose_next_creature(self, opponent: Participant | None) -> creature:
         options = self.alive_creature()
+        if len(options) == 0: return None
         poke_string = ""
         for n, opt in enumerate(options):
             poke_string += f"Type: {n} for {opt.name}\n"
@@ -49,7 +50,7 @@ class TextBasePlayer(Player):
                 print(f'Please enter an integer between [0-{len(options)-1}]')
                 choice = None
         return options[choice]
-    
+
     def make_move(self, opponent: Participant) -> Move:
         msg = "Remaining PP:\n"
         for move_name, remaining_pp in self.participant.creature._remaining_pp.items():
@@ -59,7 +60,7 @@ class TextBasePlayer(Player):
         move_string = ""
         for n, move in enumerate(self.participant.creature._moves):
             if move is not None:
-                move_string += f"Type: {n} for {move.name}\n" 
+                move_string += f"Type: {n} for {move.name}\n"
         prompt = f"Select what move {self.participant.creature.name} should use:\n" + move_string
         while choice is None:
             choice = input(prompt)
