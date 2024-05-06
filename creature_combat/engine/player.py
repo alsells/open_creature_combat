@@ -12,8 +12,12 @@ class Player(ABC):
         self.creature_team: Dict[str, Creature] = {creature.name: creature for creature in creature_team}
         
     @abstractmethod
-    def make_move(self, opponent: Participant) -> Move:
+    def select_move(self, opponent: Participant) -> str:
         pass
+        
+    def make_move(self, opponent: Participant) -> Move:
+        move_name = self.select_move(opponent)
+        return self.participant.make_move(move_name)
     
     @abstractmethod
     def choose_next_creature(self, opponent: Optional[Participant]) -> Creature:
