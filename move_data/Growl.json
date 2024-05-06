@@ -6,7 +6,7 @@
     "accuracy": 100,
     "high_crit_flag": false,
     "self_effect": [],
-    "opponent_effect": ["P_ATK:-1", "BRN"],
+    "opponent_effect": ["P_ATK:-1"],
     "environment_effect": [],
     "max_pp": 40
 }

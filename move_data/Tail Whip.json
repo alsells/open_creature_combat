@@ -6,6 +6,6 @@
     "accuracy": 100,
     "high_crit_flag": false,
     "self_effect": [null],
-    "opponent_effect": ["LOWER_P_DEF_1"],
+    "opponent_effect": ["P_DEF:-1"],
     "max_pp": 30
 }
