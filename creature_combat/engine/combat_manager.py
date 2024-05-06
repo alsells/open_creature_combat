@@ -38,7 +38,7 @@ class CombatManager:
                 else:
                     raise ValueError(f"Can not parse heal effect type {effect_type}")
             else:
-                adjust_stat_stage(effect_type, effected)
+                adjust_stat_stage(effect, effected)
         else:
             apply_status_effect(effect, effected)
     
