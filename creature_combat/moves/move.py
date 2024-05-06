@@ -1,10 +1,10 @@
+from __future__ import annotations
 from dataclasses import dataclass, field
 from json import load
-from pathlib import Path
-from typing import Optional, List, Dict, Any
-from typing_extensions import Self
+
 from creature_combat.moves.move_types import MoveTypeEnum
 from creature_combat.creature.creature_types import CreatureTypeEnum
+from creature_combat.utils import annotations as anno
 
 
 @dataclass
@@ -12,17 +12,17 @@ class Move:
     name: str
     move_type: MoveTypeEnum
     element: CreatureTypeEnum
-    power: Optional[int]
-    accuracy: Optional[int]
+    power: anno.Optional[int]
+    accuracy: anno.Optional[int]
     high_crit_flag:bool
     max_pp: int
     priority: int=0
-    self_effect: List[str]=field(default_factory=list)
-    opponent_effect: List[str]=field(default_factory=list)
-    environment_effect: List[str]=field(default_factory=list)
+    self_effect: anno.List[str]=field(default_factory=list)
+    opponent_effect: anno.List[str]=field(default_factory=list)
+    environment_effect: anno.List[str]=field(default_factory=list)
 
     @classmethod
-    def from_dict(cls, config: Dict[str, Any]) -> Self:
+    def from_dict(cls, config: anno.Config) -> anno.Self:
         """Creates an instance of Move based on the attribute dictionary provided. Parses the dictionary to handle type conversions.
 
         Args:
@@ -36,7 +36,7 @@ class Move:
         return cls(**config)
     
     @classmethod
-    def from_json(cls, path: Path) -> Self:
+    def from_json(cls, path: anno.Path) -> anno.Self:
         """Creates an instance of Move from a configuration file provided at path.
 
         Args:

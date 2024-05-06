@@ -1,10 +1,9 @@
+from __future__ import annotations
 from typing import List
 from numpy.random import uniform
-from creature_combat.engine.player import Player
-from creature_combat.engine.participant import Participant
 from creature_combat.engine.combat_functions import calculate_damage, participant_1_first, adjust_stat_stage, does_hit, apply_status_effect
-from creature_combat.moves.move import Move
 from creature_combat.statuses.non_volatile_statuses import NonVolatileStatusEnum
+from creature_combat.utils import annotations as anno
 
 
 class CombatManager:
@@ -15,7 +14,7 @@ class CombatManager:
         self.message_queue: List[str] = [""]
         self.display_messages = display_messages
     
-    def reset(self, player_1: Player, player_2: Player):
+    def reset(self, player_1: anno.Player, player_2: anno.Player):
         """Resets the state of the environment and the players back to their default.
 
         Args:
@@ -37,7 +36,7 @@ class CombatManager:
         if self.display_messages:
             self.message_queue.append(message)
             
-    def _apply_effects(self, effect: str, effected: Participant):
+    def _apply_effects(self, effect: str, effected: anno.Participant):
         """Applies the effect of the move on the effected participant. Checks for a ":" in the effect, if so either heals or adjusts the stat stage of the participant, 
         otherwise applies the non-volatile status to the participant.
 
@@ -63,7 +62,7 @@ class CombatManager:
         else:
             apply_status_effect(effect, effected)
     
-    def _apply_action(self, attacker_move: Move, attacker: Participant, defender: Participant):
+    def _apply_action(self, attacker_move: anno.Move, attacker: anno.Participant, defender: anno.Participant):
         """Applies the effects of the attacker move onto both the attacker and defender. This includes damage calculation, applying status effects, and 
         changing the environment state.
 
@@ -105,7 +104,7 @@ class CombatManager:
         else:
             self._queue_message(f"{attacker.creature.name} was paralyzed and could not move.")
         
-    def _apply_end_turn_effects(self, participant_1: Participant, participant_2: Participant):
+    def _apply_end_turn_effects(self, participant_1: anno.Participant, participant_2: anno.Participant):
         """Applies the end turn effects for both participants.
 
         Args:
@@ -115,7 +114,7 @@ class CombatManager:
         participant_1.apply_end_turn_effects()
         participant_2.apply_end_turn_effects()
     
-    def step_round(self, player_1: Player, player_2: Player):
+    def step_round(self, player_1: anno.Player, player_2: anno.Player):
         """Gets the moves used by player_1 and player_2, then simulates the results of those actions. 
         
         First get the move used by each player to start off the round. 

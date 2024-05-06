@@ -1,29 +1,25 @@
+from __future__ import annotations
 from numpy import array
 from numpy.random import randint
-from typing import Tuple, Optional
 
-from creature_combat.creature.creature_base_stats import CreatureBaseStats
-from creature_combat.creature.creature_natures import CreatureNatureEnum
-from creature_combat.creature.effort_values import EffortValues
-from creature_combat.creature.creature_types import CreatureTypeEnum
-from creature_combat.creature.individual_values import IndividualValues
-from creature_combat.moves.move import Move
 from creature_combat.statuses.non_volatile_statuses import NonVolatileStatusEnum
+from creature_combat.utils import annotations as anno
 from creature_combat.utils.mappings import NATURE_MODIFIER
 from creature_combat.utils.math_utils import clip
 
 
 class Creature:
-    def __init__(self, name: str, level: int, base_stats: CreatureBaseStats, individual_values: IndividualValues, effort_values: EffortValues, nature: CreatureNatureEnum, 
-                 types: Tuple[CreatureTypeEnum, Optional[CreatureTypeEnum]], moves: Tuple[Move, Optional[Move], Optional[Move], Optional[Move]]):
+    def __init__(self, name: str, level: int, base_stats: anno.CreatureBaseStats, individual_values: anno.IndividualValues, effort_values: anno.EffortValues, 
+                 nature: anno.CreatureNatureEnum, types: anno.Tuple[anno.CreatureTypeEnum, anno.Optional[anno.CreatureTypeEnum]], 
+                 moves: anno.Moves):
         self.name:str = name
         self.level:int = level
-        self._base_stats:CreatureBaseStats = base_stats
-        self._individual_values:IndividualValues = individual_values
-        self._effort_values:EffortValues = effort_values
-        self._nature:CreatureNatureEnum = nature
-        self._types:Tuple[CreatureTypeEnum, Optional[CreatureTypeEnum]] = types
-        self._moves:Tuple[Move, Optional[Move], Optional[Move], Optional[Move]] = moves
+        self._base_stats:anno.CreatureBaseStats = base_stats
+        self._individual_values:anno.IndividualValues = individual_values
+        self._effort_values:anno.EffortValues = effort_values
+        self._nature:anno.CreatureNatureEnum = nature
+        self._types:anno.Tuple[anno.CreatureTypeEnum, anno.Optional[anno.CreatureTypeEnum]] = types
+        self._moves:anno.Moves = moves
         self._compute_stats()
         self._status: NonVolatileStatusEnum = NonVolatileStatusEnum.NONE
         self._status_duration: int = 0
@@ -143,7 +139,7 @@ class Creature:
         """
         self._current_hp = clip(self._current_hp + amount, 0, self._max_hp)
         
-    def move_at_index(self, index: int) -> Optional[Move]:
+    def move_at_index(self, index: int) -> anno.Optional[anno.Move]:
         """Returns the move from the move list at the specified index. If none exists None will be returned instead.
 
         Args:
@@ -157,7 +153,7 @@ class Creature:
         else:
             return None
         
-    def index_of_move(self, move_name: str) -> Optional[int]:
+    def index_of_move(self, move_name: str) -> anno.Optional[int]:
         """Returns the index of the move based on the move_name provided.
 
         Args:
@@ -172,7 +168,7 @@ class Creature:
         else:
             return None
         
-    def is_stab(self, move: Move) -> bool:
+    def is_stab(self, move: anno.Move) -> bool:
         #TODO: Move the STAB check to combat functions and not as part of the Creature object
         """Determines if the move would gain the Same Type Attack Bonus (STAB) bonus when used by this creature.
 

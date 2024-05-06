@@ -1,6 +1,8 @@
+from __future__ import annotations
 from dataclasses import dataclass
-from typing_extensions import Self
 from numpy.random import randint
+
+from creature_combat.utils import annotations as anno
 
 
 @dataclass
@@ -23,7 +25,7 @@ class EffortValues:
         assert ev_total <= 510, f"Total EVs must be less than 510, provided {ev_total}. Please decrease EVs to a valid range"
         
     @classmethod
-    def make_zero(cls) -> Self:
+    def make_zero(cls) -> anno.Self:
         """Returns an EffortValue object with 0 for all stats
 
         Returns:
@@ -32,7 +34,7 @@ class EffortValues:
         return cls(0, 0, 0, 0, 0, 0)
     
     @classmethod
-    def make_random(cls) -> Self:
+    def make_random(cls) -> anno.Self:
         """Returns a random EffortValue instance, with the stats ranging between 0 and 80 as to not be able to hit the EV limit of 510.
 
         Returns:

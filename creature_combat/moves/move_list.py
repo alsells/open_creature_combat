@@ -1,18 +1,18 @@
-from pathlib import Path
+from __future__ import annotations
 from os import listdir
-from typing import Set
-from creature_combat.moves.move import Move
 
+from creature_combat.moves.move import Move
+from creature_combat.utils import annotations as anno
 
 class MoveList:
-    def __init__(self, data_path: Path):
+    def __init__(self, data_path: anno.Path):
         assert data_path.exists(), f"Path to Move list data {data_path} is invalid"
         self.data_path = data_path
         available_moves = [f for f in listdir(str(data_path)) if f.split('.')[0] != 'example' and f.split('.')[-1] == 'json']
         self._moves = {am.split('.')[0]: Move.from_json(self.data_path / am) for am in available_moves}
         
     @property
-    def available_moves(self) -> Set[str]:
+    def available_moves(self) -> anno.Set[str]:
         """Lists the Moves that have been loaded into the MoveList
 
         Returns:

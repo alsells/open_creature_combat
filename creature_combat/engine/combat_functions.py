@@ -1,13 +1,13 @@
-from numpy.random import randint, uniform, normal
-from creature_combat.engine.participant import Participant
-from creature_combat.moves.move import Move
+from __future__ import annotations
+from numpy.random import randint, uniform
 from creature_combat.moves.move_types import MoveTypeEnum
 from creature_combat.statuses.non_volatile_statuses import NonVolatileStatusEnum
+from creature_combat.utils import annotations as anno
 from creature_combat.utils.math_utils import clip
 from creature_combat.utils.mappings import DAMAGE_MAP
 
 
-def does_hit(move: Move, attacker: Participant, defender: Participant) -> bool:
+def does_hit(move: anno.Move, attacker: anno.Participant, defender: anno.Participant) -> bool:
     """Determines if the move from the attacker will hit the defender.
 
     Args:
@@ -24,7 +24,7 @@ def does_hit(move: Move, attacker: Participant, defender: Participant) -> bool:
     return randint(0, 100) <= int(move.accuracy * factor)
 
 
-def does_crit(move: Move, attacker: Participant) -> bool:
+def does_crit(move: anno.Move, attacker: anno.Participant) -> bool:
     """Determines if the move will crit on the target or not.
 
     Args:
@@ -57,7 +57,7 @@ def stat_stage_modifier(stage: int) -> float:
     return (2 + stage) / 2 if stage >= 0 else 2 / (2 - stage)
 
 
-def get_type_modifier(move: Move, target: Participant) -> float:
+def get_type_modifier(move: anno.Move, target: anno.Participant) -> float:
     """Gets the damage modifier for the move against the target based on the typing of both the target and move.
 
     Args:
@@ -74,7 +74,7 @@ def get_type_modifier(move: Move, target: Participant) -> float:
     return mod
 
 
-def calculate_damage(move: Move, attacker: Participant, defender: Participant) -> int:
+def calculate_damage(move: anno.Move, attacker: anno.Participant, defender: anno.Participant) -> int:
     """Determines how much damage is done by the move from the attacker to the defender. The function follows a simplified version of the GEN5+ damage calculation formula found here: https://bulbapedia.bulbagarden.net/wiki/Damage
 
     Args:
@@ -106,7 +106,7 @@ def calculate_damage(move: Move, attacker: Participant, defender: Participant) -
     return int(base * crit * random * type_modifier)
 
 
-def participant_1_first(participant1: Participant, move1: Move, participant2: Participant, move2: Move) -> bool:
+def participant_1_first(participant1: anno.Participant, move1: anno.Move, participant2: anno.Participant, move2: anno.Move) -> bool:
     """Determines who between participant 1 and 2 should go first. Will first check the move priority of the moves that they are using, and if they are tied, 
     use the participants speed as a tie breaker, with Priority given to Participant 1.
 
@@ -127,7 +127,7 @@ def participant_1_first(participant1: Participant, move1: Move, participant2: Pa
         return participant1.spd >= participant2.spd
 
 
-def adjust_stat_stage(effect_name: str, effected: Participant) -> None:
+def adjust_stat_stage(effect_name: str, effected: anno.Participant) -> None:
     """Parses the effect name and adjusts the effected participants stat stage based on the name.
 
     Args:
@@ -160,6 +160,6 @@ def adjust_stat_stage(effect_name: str, effected: Participant) -> None:
             raise ValueError(f"Unable to parse stat change category {stat}, please provide a valid stat category.")
 
 
-def apply_status_effect(effect_name: str, effected: Participant) -> None:
+def apply_status_effect(effect_name: str, effected: anno.Participant) -> None:
     status = NonVolatileStatusEnum[effect_name]
     effected.apply_status_non_volatile(status)

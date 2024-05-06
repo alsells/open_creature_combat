@@ -1,6 +1,8 @@
+from __future__ import annotations
 from dataclasses import dataclass
 from numpy.random import randint
-from typing_extensions import Self
+
+from creature_combat.utils import annotations as anno
 
 
 @dataclass
@@ -21,7 +23,7 @@ class IndividualValues:
         assert 0<=self.speed<32, f"Speed IVs must be between [0-31], IV was provided as {self.speed}."
         
     @classmethod
-    def make_zero(cls) -> Self:
+    def make_zero(cls) -> anno.Self:
         """Makes an instance of IndividualValues with 0 for all of the stat values.
 
         Returns:
@@ -30,7 +32,7 @@ class IndividualValues:
         return cls(0, 0, 0, 0, 0, 0)
     
     @classmethod
-    def make_random(cls) -> Self:
+    def make_random(cls) -> anno.Self:
         """Makes an instance of IndividualValues with random values for each stat.
 
         Returns:
