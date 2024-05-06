@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "creature_combat"
-version = "0.0.3"
+version = "0.0.4"
 authors = [
   { name="Alex Sells", email="author@example.com" },
 ]
