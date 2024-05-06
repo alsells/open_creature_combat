@@ -73,7 +73,7 @@ class CreatureDex:
     def __init__(self, data_path: Path):
         assert data_path.exists(), f"Path to creature data {data_path} is invalid"
         self.data_path = data_path
-        available_creature = [f for f in listdir(str(data_path)) if f.split('.')[-1] == 'json']
+        available_creature = [f for f in listdir(str(data_path)) if f.split('.')[0] != 'example' and f.split('.')[-1] == 'json']
         self._creature = {ap.split('.')[0]: CreatureEntry.from_json(self.data_path / ap) for ap in available_creature}
     
     @property

@@ -7,5 +7,6 @@
     "high_crit_flag": false,
     "self_effect": [],
     "opponent_effect": [],
+    "environment_effect": [],
     "max_pp": 25
 }

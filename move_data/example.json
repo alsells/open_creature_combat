@@ -1,0 +1,12 @@
+{
+    "name": "Example",
+    "move_type": "SPECIAL | PHYSICAL | STATUS",
+    "element": "One of: FIRE | WATER | GRASS | ETC",
+    "power": 40,
+    "accuracy": 100,
+    "high_crit_flag": false,
+    "self_effect": ["P_ATK:-1", "P_DEF:-1", "SPD:2", "LIFESTEAL%:50", "HEAL_FLAT:20"],
+    "opponent_effect": ["BRN", "PSN", "PAR", "S_ATK:-2"],
+    "environment_effect": [],
+    "max_pp": 25
+}
