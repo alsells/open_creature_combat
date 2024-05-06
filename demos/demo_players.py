@@ -18,16 +18,16 @@ class SuperEffectivePlayer(Player):
         else:
             return available_creature[0] if len(available_creature) > 0 else None
 
-    def make_move(self, opponent: Participant) -> Move:
+    def select_move(self, opponent: Participant) -> str:
         mutable_moves: List[Move] = list(self.participant.creature._moves)
         mutable_moves = [mm for mm in mutable_moves if mm is not None]
         mutable_moves.sort(key=lambda m: 0 if m.power is None else m.power, reverse=True)
         for move in mutable_moves:
             if self.participant.can_make_move(move.name):
                 if get_type_modifier(move, opponent) > 1.0:
-                    return self.participant.make_move(move.name)
+                    return move.name
         else:
-            return self.participant.make_move(mutable_moves[0].name)
+            return mutable_moves[0].name
 
 
 class TextBasePlayer(Player):
@@ -51,7 +51,7 @@ class TextBasePlayer(Player):
                 choice = None
         return options[choice]
 
-    def make_move(self, opponent: Participant) -> Move:
+    def select_move(self, opponent: Participant) -> str:
         msg = "Remaining PP:\n"
         for move_name, remaining_pp in self.participant.creature._remaining_pp.items():
             msg += f"{move_name}: {remaining_pp} / {self.participant.creature._move_map[move_name].max_pp}\n"
@@ -77,5 +77,4 @@ class TextBasePlayer(Player):
             except ValueError:
                 print(f'Please enter an integer between [0-3]')
                 choice = None
-        rval = self.participant.make_move(self.participant.creature._moves[choice].name)
-        return rval
+        return self.participant.creature._moves[choice].name
