@@ -1,12 +1,13 @@
+from __future__ import annotations
 from numpy.random import uniform
-from creature_combat.creature.creature import Creature
-from creature_combat.moves.move import Move
+
 from creature_combat.statuses.non_volatile_statuses import NonVolatileStatusEnum
+from creature_combat.utils import annotations as anno
 from creature_combat.utils.math_utils import clip
 
 class Participant:
     def __init__(self):
-        self.creature: Creature = None
+        self.creature: anno.Creature = None
         self.reset_stage()
         self.bpsn_counter:int = 0
         
@@ -116,7 +117,7 @@ class Participant:
         self.creature = None
         self.reset_stage()
 
-    def add_creature(self, creature: Creature) -> None:
+    def add_creature(self, creature: anno.Creature) -> None:
         """Adds a creature to the participant in the battle.
 
         Args:
@@ -151,7 +152,7 @@ class Participant:
         remaining_pp = self.creature._remaining_pp.get(move_name, None)
         return remaining_pp is not None and remaining_pp > 0
     
-    def make_move(self, move_name: str) -> Move:
+    def make_move(self, move_name: str) -> anno.Move:
         """Makes the move provided by the move_name for the round in combat. Will also decrement 1 PP usage. 
 
         Args:

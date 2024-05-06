@@ -1,27 +1,22 @@
+from __future__ import annotations
 from dataclasses import dataclass
-from pathlib import Path
 from json import load
-from typing import Optional, Tuple, Dict, Any, Set
-from typing_extensions import Self
 from os import listdir
 from creature_combat.creature.creature_base_stats import CreatureBaseStats
 from creature_combat.creature.creature_types import CreatureTypeEnum
-from creature_combat.creature.individual_values import IndividualValues
-from creature_combat.creature.effort_values import EffortValues
-from creature_combat.creature.creature_natures import CreatureNatureEnum
 from creature_combat.creature.creature import Creature
-from creature_combat.moves.move import Move
+from creature_combat.utils import annotations as anno
 
 
 @dataclass
 class CreatureEntry:
     """Data container for the immutable attributes of a Creature"""
     name: str  # Name of the Creature
-    elements: Tuple[CreatureTypeEnum, Optional[CreatureTypeEnum]]  # What Element is the Creature
+    elements: anno.Tuple[CreatureTypeEnum, anno.Optional[CreatureTypeEnum]]  # What Element is the Creature
     base_stats: CreatureBaseStats  # The base statistics of the Creature
 
     @classmethod
-    def from_dict(cls, config: Dict[str, Any]) -> Self:
+    def from_dict(cls, config: anno.Config) -> anno.Self:
         """Parses a config dictionary, and formats the data to create an instance of CreatureEntry.
 
         Args:
@@ -39,7 +34,7 @@ class CreatureEntry:
         return cls(**config)
     
     @classmethod
-    def from_json(cls, path: Path) -> Self:
+    def from_json(cls, path: anno.Path) -> anno.Self:
         """Generates a CreatureEntry from a json file provided at path.
 
         Args:
@@ -52,8 +47,8 @@ class CreatureEntry:
             config = load(infile)
         return cls.from_dict(config)
     
-    def make_creature(self, level: int, individual_values: IndividualValues, effort_values: EffortValues, 
-                     nature: CreatureNatureEnum, moves: Tuple[Move, Optional[Move], Optional[Move], Optional[Move]]) -> Creature:
+    def make_creature(self, level: int, individual_values: anno.IndividualValues, effort_values: anno.EffortValues, 
+                     nature: anno.CreatureNatureEnum, moves: anno.Moves) -> Creature:
         """Makes a Creature object based on this CreatureEntry, as well as the mutable parameters of level, EVs, IVs, nature, and moves
 
         Args:
@@ -70,14 +65,14 @@ class CreatureEntry:
 
 
 class CreatureDex:
-    def __init__(self, data_path: Path):
+    def __init__(self, data_path: anno.Path):
         assert data_path.exists(), f"Path to creature data {data_path} is invalid"
         self.data_path = data_path
         available_creature = [f for f in listdir(str(data_path)) if f.split('.')[0] != 'example' and f.split('.')[-1] == 'json']
         self._creature = {ap.split('.')[0]: CreatureEntry.from_json(self.data_path / ap) for ap in available_creature}
     
     @property
-    def available_creature(self) -> Set[str]:
+    def available_creature(self) -> anno.Set[str]:
         """Lists the Creatures that have been loaded into the CreatureDex currently
 
         Returns:

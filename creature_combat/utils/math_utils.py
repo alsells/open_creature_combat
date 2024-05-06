@@ -1,7 +1,8 @@
-from typing import Union
+from __future__ import annotations
+from creature_combat.utils import annotations as anno
 
 
-def clip(value: Union[float, int], min_val: Union[float, int], max_val: Union[float, int]) -> Union[float, int]:
+def clip(value: anno.Union[float, int], min_val: anno.Union[float, int], max_val: anno.Union[float, int]) -> anno.Union[float, int]:
     """Clips the value provided to be on the bound [min_val, max_val]. 
 
     Args:

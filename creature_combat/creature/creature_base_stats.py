@@ -1,7 +1,8 @@
-from typing_extensions import Self
-from typing import Dict
-from numpy import uint8
+from __future__ import annotations
 from dataclasses import dataclass
+from numpy import uint8
+
+from creature_combat.utils import annotations as anno
 
 
 @dataclass
@@ -14,7 +15,7 @@ class CreatureBaseStats:
     speed: uint8
     
     @classmethod
-    def from_dict(cls, config: Dict[str, int]) -> Self:
+    def from_dict(cls, config: anno.Dict[str, int]) -> anno.Self:
         """Method to create an instance of CreatureBaseStats with data contained within a python dictionary. Converts input values into uint8 values
 
         Args:
