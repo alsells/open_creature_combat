@@ -8,6 +8,16 @@ from creature_combat.utils.mappings import DAMAGE_MAP
 
 
 def does_hit(move: Move, attacker: Participant, defender: Participant) -> bool:
+    """Determines if the move from the attacker will hit the defender.
+
+    Args:
+        move (Move): The move the attacker is using 
+        attacker (Participant): The attacker making the attack
+        defender (Participant): The defender receiving the attack
+
+    Returns:
+        bool: Does the Move hit or not 
+    """
     modifier = clip(attacker.acc_stage - defender.eva_stage, -6, 6)
     # Factor moves on a scale of 9/3 when modifier is 6, to 3/9 when modifier is -6. 
     factor = (3 + modifier) / 3 if modifier >= 0 else 3 / (3 - modifier)
@@ -15,6 +25,18 @@ def does_hit(move: Move, attacker: Participant, defender: Participant) -> bool:
 
 
 def does_crit(move: Move, attacker: Participant) -> bool:
+    """Determines if the move will crit on the target or not.
+
+    Args:
+        move (Move): The move being used by the attacker
+        attacker (Participant): The attacker using the move
+
+    Raises:
+        ValueError: If the crit_stage of the attacker is beyond the expected range of [0-3] something critically has gone wrong and will error out.
+
+    Returns:
+        bool: Does the move crit the target or not 
+    """
     modifier = clip(int(move.high_crit_flag) + attacker.crit_stage, 0, 3)
     match modifier:
         case 0:
@@ -36,6 +58,15 @@ def stat_stage_modifier(stage: int) -> float:
 
 
 def get_type_modifier(move: Move, target: Participant) -> float:
+    """Gets the damage modifier for the move against the target based on the typing of both the target and move.
+
+    Args:
+        move (Move): Move being used against the target
+        target (Participant): Target being attacked by the move
+
+    Returns:
+        float: How much the damage is modified based on the typing between the move and target
+    """
     mod = 1.0
     for target_type in target.creature._types:
         if target_type is not None:
@@ -44,6 +75,16 @@ def get_type_modifier(move: Move, target: Participant) -> float:
 
 
 def calculate_damage(move: Move, attacker: Participant, defender: Participant) -> int:
+    """Determines how much damage is done by the move from the attacker to the defender. The function follows a simplified version of the GEN5+ damage calculation formula found here: https://bulbapedia.bulbagarden.net/wiki/Damage
+
+    Args:
+        move (Move): The move being used by the attacker
+        attacker (Participant): The attacker using the attack
+        defender (Participant): The defender receiving the attack
+
+    Returns:
+        int: How much damage should be dealt to the defender 
+    """
     match move.move_type:
         case MoveTypeEnum.PHYSICAL:
             a = attacker.p_atk
@@ -66,6 +107,18 @@ def calculate_damage(move: Move, attacker: Participant, defender: Participant) -
 
 
 def participant_1_first(participant1: Participant, move1: Move, participant2: Participant, move2: Move) -> bool:
+    """Determines who between participant 1 and 2 should go first. Will first check the move priority of the moves that they are using, and if they are tied, 
+    use the participants speed as a tie breaker, with Priority given to Participant 1.
+
+    Args:
+        participant1 (Participant): Participant 1 in the round 
+        move1 (Move): Move used by participant 1
+        participant2 (Participant): Participant 2 in the round
+        move2 (Move): Move used by participant 2
+
+    Returns:
+        bool: Does participant 1 go for or does participant 2 go first
+    """
     if move1.priority > move2.priority:
         return True
     elif move1.priority < move2.priority:
@@ -75,6 +128,15 @@ def participant_1_first(participant1: Participant, move1: Move, participant2: Pa
 
 
 def adjust_stat_stage(effect_name: str, effected: Participant) -> None:
+    """Parses the effect name and adjusts the effected participants stat stage based on the name.
+
+    Args:
+        effect_name (str): Name of the effect effecting the participant
+        effected (Participant): Participant the effect applies to
+
+    Raises:
+        ValueError: If a non stat effect is passed in, it can not be parsed to adjust a specific stat and will error out.
+    """
     stat, amount  = effect_name.split(':')
     amount = int(amount)
     match stat:

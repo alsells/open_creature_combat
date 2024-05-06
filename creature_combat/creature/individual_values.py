@@ -22,8 +22,18 @@ class IndividualValues:
         
     @classmethod
     def make_zero(cls) -> Self:
+        """Makes an instance of IndividualValues with 0 for all of the stat values.
+
+        Returns:
+            Self: Instance of IndividualValues for the creature
+        """
         return cls(0, 0, 0, 0, 0, 0)
     
     @classmethod
     def make_random(cls) -> Self:
+        """Makes an instance of IndividualValues with random values for each stat.
+
+        Returns:
+            Self: Instance of IndividualValues for the creature
+        """
         return cls(randint(0, 32), randint(0, 32), randint(0, 32), randint(0, 32), randint(0, 32), randint(0, 32))

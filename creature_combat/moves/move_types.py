@@ -1,7 +1,6 @@
 from creature_combat.utils.extended_enums import ExtendedEnum
 
 
-
 class MoveTypeEnum(ExtendedEnum):
     PHYSICAL:int=0
     SPECIAL:int=1
