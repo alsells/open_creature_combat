@@ -40,7 +40,7 @@ def main():
     manager = CombatManager(True)
     manager.reset(player_1, player_2)
     while len(player_1.alive_creature()) > 0 and len(player_2.alive_creature()) > 0:
-        manager.take_turn(player_1, player_2)
+        manager.step_round(player_1, player_2)
     win = len(player_1.alive_creature()) > 0
     if win:
         print("Congratulation on your win! Run to try again.")

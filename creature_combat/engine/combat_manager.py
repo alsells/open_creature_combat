@@ -115,7 +115,21 @@ class CombatManager:
         participant_1.apply_end_turn_effects()
         participant_2.apply_end_turn_effects()
     
-    def take_turn(self, player_1: Player, player_2: Player):
+    def step_round(self, player_1: Player, player_2: Player):
+        """Gets the moves used by player_1 and player_2, then simulates the results of those actions. 
+        
+        First get the move used by each player to start off the round. 
+        Second determine priority based on move chosen and speed.
+        Third apply the effect of the faster creature onto the slower.
+        Forth check if the slower creature is alive after the move gets applied. If so its move will be applied.
+        Fifth apply any end round effects for each player.
+        Sixth will check if either player has an alive participant, and if not will ask for a new creature to be chosen.
+        Seventh if the environment is set to display messages, display messages.
+
+        Args:
+            player_1 (Player): First player in the combat 
+            player_2 (Player): Second player in the combat
+        """
         self.round_number += 1
         player_1_move = player_1.make_move(player_2.participant)
         player_2_move = player_2.make_move(player_1.participant)
@@ -132,6 +146,7 @@ class CombatManager:
                 self._apply_action(player_1_move, player_1.participant, player_2.participant)
             self._queue_message(f"{player_2.participant.creature.name} HP: {player_2.participant.creature.write_hp}")
             self._queue_message(f"{player_1.participant.creature.name} HP: {player_1.participant.creature.write_hp}")
+        self._apply_end_turn_effects()
         if not player_1.participant.is_alive:
             self._queue_message(f"{player_1.participant.creature.name} has fainted!")
             player_1.swap_creature(player_2.participant)
