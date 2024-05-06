@@ -16,6 +16,12 @@ class CombatManager:
         self.display_messages = display_messages
     
     def reset(self, player_1: Player, player_2: Player):
+        """Resets the state of the environment and the players back to their default.
+
+        Args:
+            player_1 (Player): Player 1 in the combat scenario
+            player_2 (Player): Player 2 in the combat scenario
+        """
         player_1.swap_creature(None)
         player_2.swap_creature(None)
         self.round_number = 0
@@ -23,10 +29,25 @@ class CombatManager:
         self.message_queue = [""]
         
     def _queue_message(self, message: str):
+        """If messages are to be displayed, adds the message to the message queue to be displayed at the end of the round.
+
+        Args:
+            message (str): The message to display
+        """
         if self.display_messages:
             self.message_queue.append(message)
             
     def _apply_effects(self, effect: str, effected: Participant):
+        """Applies the effect of the move on the effected participant. Checks for a ":" in the effect, if so either heals or adjusts the stat stage of the participant, 
+        otherwise applies the non-volatile status to the participant.
+
+        Args:
+            effect (str): What effect needs to be applied
+            effected (Participant): Who the effect applies to
+
+        Raises:
+            ValueError: If a HEAL effect was provided, but it doesn't fit the format of % or FLAT then it can not be handled.
+        """
         if ":" in effect:
             effect_type, amount = effect.split(':')
             amount = int(amount)
@@ -43,6 +64,17 @@ class CombatManager:
             apply_status_effect(effect, effected)
     
     def _apply_action(self, attacker_move: Move, attacker: Participant, defender: Participant):
+        """Applies the effects of the attacker move onto both the attacker and defender. This includes damage calculation, applying status effects, and 
+        changing the environment state.
+
+        Args:
+            attacker_move (Move): Move being used
+            attacker (Participant): The attacker using the move
+            defender (Participant): The defender receiving the move
+
+        Raises:
+            ValueError: If a LIFESTEAL effect was provided, but it doesn't fit the format of % or FLAT then it can not be handled.
+        """
         can_move = uniform(0.0, 1.0) < 0.25 if attacker.creature.status == NonVolatileStatusEnum.PAR else True
         if can_move:
             if attacker_move.is_attack:
@@ -73,9 +105,15 @@ class CombatManager:
         else:
             self._queue_message(f"{attacker.creature.name} was paralyzed and could not move.")
         
-    def _apply_end_turn_effects(self, attacker: Participant, defender: Participant):
-        attacker.apply_end_turn_effects()
-        defender.apply_end_turn_effects()
+    def _apply_end_turn_effects(self, participant_1: Participant, participant_2: Participant):
+        """Applies the end turn effects for both participants.
+
+        Args:
+            participant_1 (Participant): Participant 1 for the combat 
+            participant_2 (Participant): Participant 2 for the combat
+        """
+        participant_1.apply_end_turn_effects()
+        participant_2.apply_end_turn_effects()
     
     def take_turn(self, player_1: Player, player_2: Player):
         self.round_number += 1

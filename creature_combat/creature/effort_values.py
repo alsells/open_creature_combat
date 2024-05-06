@@ -24,8 +24,18 @@ class EffortValues:
         
     @classmethod
     def make_zero(cls) -> Self:
+        """Returns an EffortValue object with 0 for all stats
+
+        Returns:
+            Self: Effort Values for the creature
+        """
         return cls(0, 0, 0, 0, 0, 0)
     
     @classmethod
     def make_random(cls) -> Self:
+        """Returns a random EffortValue instance, with the stats ranging between 0 and 80 as to not be able to hit the EV limit of 510.
+
+        Returns:
+            Self: Effort Values for the creature
+        """
         return cls(randint(0, 80), randint(0, 80), randint(0, 80), randint(0, 80), randint(0, 80), randint(0, 80))

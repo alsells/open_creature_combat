@@ -15,12 +15,22 @@ from creature_combat.moves.move import Move
 
 @dataclass
 class CreatureEntry:
-    name: str
-    elements: Tuple[CreatureTypeEnum, Optional[CreatureTypeEnum]]
-    base_stats: CreatureBaseStats
+    """Data container for the immutable attributes of a Creature"""
+    name: str  # Name of the Creature
+    elements: Tuple[CreatureTypeEnum, Optional[CreatureTypeEnum]]  # What Element is the Creature
+    base_stats: CreatureBaseStats  # The base statistics of the Creature
 
     @classmethod
     def from_dict(cls, config: Dict[str, Any]) -> Self:
+        """Parses a config dictionary, and formats the data to create an instance of CreatureEntry.
+
+        Args:
+            config (Dict[str, Any]): Dictionary containing attribute names and values for CreatureEntry
+
+        Returns:
+            Self: Instance of CreatureEntry
+        """
+        # Iterate through all of the elements to instantiate them 
         for n, element in enumerate(config['elements']):
             val = None if element is None else CreatureTypeEnum[element]
             config['elements'][n] = val
@@ -30,14 +40,33 @@ class CreatureEntry:
     
     @classmethod
     def from_json(cls, path: Path) -> Self:
+        """Generates a CreatureEntry from a json file provided at path.
+
+        Args:
+            path (Path): Path to the creature entry config file.
+
+        Returns:
+            Self: Instance of CreatureEntry
+        """
         with open(path, 'r') as infile:
             config = load(infile)
         return cls.from_dict(config)
     
     def make_creature(self, level: int, individual_values: IndividualValues, effort_values: EffortValues, 
                      nature: CreatureNatureEnum, moves: Tuple[Move, Optional[Move], Optional[Move], Optional[Move]]) -> Creature:
-        return Creature(self.name, level, self.base_stats, individual_values, effort_values, nature, self.elements, 
-                       moves)
+        """Makes a Creature object based on this CreatureEntry, as well as the mutable parameters of level, EVs, IVs, nature, and moves
+
+        Args:
+            level (int): What level of Creature to make
+            individual_values (IndividualValues): IVs for the Creature
+            effort_values (EffortValues): EVs for the Creature
+            nature (CreatureNatureEnum): Nature of the Creature
+            moves (Tuple[Move, Optional[Move], Optional[Move], Optional[Move]]): List of moves the Creature has
+
+        Returns:
+            Creature: Instance of a Creature object based on provided values
+        """
+        return Creature(self.name, level, self.base_stats, individual_values, effort_values, nature, self.elements, moves)
 
 
 class CreatureDex:
@@ -49,9 +78,25 @@ class CreatureDex:
     
     @property
     def available_creature(self) -> Set[str]:
+        """Lists the Creatures that have been loaded into the CreatureDex currently
+
+        Returns:
+            Set[str]: Set of the Creature Names available in the CreatureDex
+        """
         return set(self._creature.keys())
     
     def get(self, creature_name: str) -> CreatureEntry:
+        """Accessor method for the _creature dictionary stored in the CreatureDex. Primarily wraps the dictionary .get() method to return a more explicit error when it errors out.
+
+        Args:
+            creature_name (str): Name of the creature to get the CreatureEntry for.
+
+        Raises:
+            ValueError: If the creature_name isn't in the _creature dictionary 
+
+        Returns:
+            CreatureEntry: CreatureEntry instance for the requested creature_name
+        """
         stats = self._creature.get(creature_name, None)
         if stats is None:
             raise ValueError(f"Can not get data for creature : {creature_name} as it is not in the creature dex.")

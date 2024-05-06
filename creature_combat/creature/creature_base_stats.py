@@ -15,6 +15,14 @@ class CreatureBaseStats:
     
     @classmethod
     def from_dict(cls, config: Dict[str, int]) -> Self:
+        """Method to create an instance of CreatureBaseStats with data contained within a python dictionary. Converts input values into uint8 values
+
+        Args:
+            config (Dict[str, int]): Mapping of attribute names to the values for those attributes for this object instance.
+
+        Returns:
+            Self: An instance of CreatureBaseStats with the specified values.
+        """
         config['health_points'] = uint8(config['health_points'])
         config['physical_attack'] = uint8(config['physical_attack'])
         config['physical_defense'] = uint8(config['physical_defense'])
