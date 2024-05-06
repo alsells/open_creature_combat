@@ -2,12 +2,12 @@ from typing import Optional, List
 from creature_combat.engine.player import Player
 from creature_combat.engine.participant import Participant
 from creature_combat.engine.combat_functions import get_type_modifier
-from creature_combat.creature.creature import creature
+from creature_combat.creature.creature import Creature
 from creature_combat.moves.move import Move
 
 
 class SuperEffectivePlayer(Player):
-    def choose_next_creature(self, opponent: Optional[Participant]) -> creature:
+    def choose_next_creature(self, opponent: Optional[Participant]) -> Creature:
         available_creature = self.alive_creature()
         for creature in available_creature:
             if opponent is None:
@@ -31,7 +31,7 @@ class SuperEffectivePlayer(Player):
         
         
 class TextBasePlayer(Player):
-    def choose_next_creature(self, opponent: Participant | None) -> creature:
+    def choose_next_creature(self, opponent: Participant | None) -> Creature:
         options = self.alive_creature()
         poke_string = ""
         for n, opt in enumerate(options):

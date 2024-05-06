@@ -1,6 +1,5 @@
 from pathlib import Path
 
 
-_PATH_UTILS = Path(__file__)
-UTILS = _PATH_UTILS.parent
-ROOT = UTILS.parent
+_CREATUREDEX_PATH = Path(r"./creaturedex_data").resolve()
+_MOVE_LIST_PATH = Path(r"./move_data").resolve()

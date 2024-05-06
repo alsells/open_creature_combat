@@ -18,16 +18,14 @@ class Move:
     high_crit_flag:bool
     max_pp: int
     priority: int=0
-    self_effect: List[MoveEffectEnum]=field(default_factory=list)
-    opponent_effect: List[MoveEffectEnum]=field(default_factory=list)
-    environment_effect: List[MoveEffectEnum]=field(default_factory=list)
+    self_effect: List[str]=field(default_factory=list)
+    opponent_effect: List[str]=field(default_factory=list)
+    environment_effect: List[str]=field(default_factory=list)
 
     @classmethod
     def from_dict(cls, config: Dict[str, Any]) -> Self:
         config['move_type'] = MoveTypeEnum.init_from_key_or_value(config['move_type'])
         config['element'] = CreatureTypeEnum.init_from_key_or_value(config['element'])
-        config['self_effect'] = [MoveEffectEnum.init_from_key_or_value(se) for se in config['self_effect'] if se is not None]
-        config['opponent_effect'] = [MoveEffectEnum.init_from_key_or_value(oe) for oe in config['opponent_effect'] if oe is not None]
         return cls(**config)
     
     @classmethod
@@ -39,6 +37,6 @@ class Move:
     @property
     def is_attack(self) -> bool:
         return self.move_type != MoveTypeEnum.STATUS
-    
+
     def __hash__(self) -> int:
         return hash(self.name)

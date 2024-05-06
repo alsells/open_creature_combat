@@ -16,7 +16,7 @@ def main():
         raise RuntimeError(f"Could not find creature dex path @: {creaturedex_path}")
     movedata_path = top / "move_data"
     if not movedata_path.exists():
-        raise RuntimeError(f"Could not find creature dex path @: {movedata_path}")
+        raise RuntimeError(f"Could not find move list path @: {movedata_path}")
     creaturedex = CreatureDex(creaturedex_path)
     movelist = MoveList(movedata_path)
     bulbasaur_entry = creaturedex.get('Bulbasaur')
@@ -43,7 +43,7 @@ def main():
         manager.take_turn(player_1, player_2)
     win = len(player_1.alive_creature()) > 0
     if win:
-        print("Congradulations on your win! Run to try again.")
+        print("Congratulation on your win! Run to try again.")
     else:
         print("Better luck next time. Run to try again.")
 

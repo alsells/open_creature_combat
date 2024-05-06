@@ -1,4 +1,5 @@
 from numpy import array
+from numpy.random import randint
 from typing import Tuple, Optional
 
 from creature_combat.creature.creature_base_stats import CreatureBaseStats
@@ -12,7 +13,7 @@ from creature_combat.utils.mappings import NATURE_MODIFIER
 from creature_combat.utils.math_utils import clip
 
 
-class creature:
+class Creature:
     def __init__(self, name: str, level: int, base_stats: CreatureBaseStats, individual_values: IndividualValues, effort_values: EffortValues, nature: CreatureNatureEnum, 
                  types: Tuple[CreatureTypeEnum, Optional[CreatureTypeEnum]], moves: Tuple[Move, Optional[Move], Optional[Move], Optional[Move]]):
         self.name:str = name
@@ -25,6 +26,7 @@ class creature:
         self._moves:Tuple[Move, Optional[Move], Optional[Move], Optional[Move]] = moves
         self._compute_stats()
         self._status: NonVolatileStatusEnum = NonVolatileStatusEnum.NONE
+        self._status_duration: int = 0
         self._remaining_pp = {move.name: move.max_pp for move in self._moves if move is not None}
         self._move_map = {move.name: move for move in self._moves if move is not None}
     
@@ -61,9 +63,28 @@ class creature:
     def set_status(self, status: NonVolatileStatusEnum) -> None:
         if self._status.value == -1:    
             self._status = NonVolatileStatusEnum(status.value)
+            match status:
+                case NonVolatileStatusEnum.BRN:
+                    duration = -1
+                case NonVolatileStatusEnum.FRZ:
+                    duration = -1
+                case NonVolatileStatusEnum.PAR:
+                    duration = -1
+                case NonVolatileStatusEnum.PSN:
+                    duration = -1
+                case NonVolatileStatusEnum.BPSN:
+                    duration = -1
+                case NonVolatileStatusEnum.SLP:
+                    duration = randint(1, 4)
+                case NonVolatileStatusEnum.NONE:
+                    duration = 0
+                case _:
+                    raise ValueError(f"Somehow NonVolatileStatusEnum had a non-expected value {status}")
+            self._status_duration = duration
     
     def _reset_status(self) -> None:
         self._status = NonVolatileStatusEnum.NONE
+        self._status_duration = 0
         
     def _reset_health(self) -> None:
         self._current_hp = self._max_hp
@@ -78,8 +99,8 @@ class creature:
         self._reset_health()
         self._reset_pp()
         
-    def adjust_health(self, ammount: int) -> None:
-        self._current_hp = clip(self._current_hp + ammount, 0, self._max_hp)
+    def adjust_health(self, amount: int) -> None:
+        self._current_hp = clip(self._current_hp + amount, 0, self._max_hp)
         
     def move_at_index(self, index: int) -> Optional[str]:
         if index < 4:
@@ -132,6 +153,10 @@ class creature:
     @property
     def status(self) -> NonVolatileStatusEnum:
         return self._status
+    
+    @property
+    def status_duration(self) -> int:
+        return self._status_duration
     
     @property
     def print_stats(self) -> str:

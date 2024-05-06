@@ -9,7 +9,7 @@ from creature_combat.creature.creature_types import CreatureTypeEnum
 from creature_combat.creature.individual_values import IndividualValues
 from creature_combat.creature.effort_values import EffortValues
 from creature_combat.creature.creature_natures import CreatureNatureEnum
-from creature_combat.creature.creature import creature
+from creature_combat.creature.creature import Creature
 from creature_combat.moves.move import Move
 
 
@@ -35,9 +35,10 @@ class CreatureEntry:
         return cls.from_dict(config)
     
     def make_creature(self, level: int, individual_values: IndividualValues, effort_values: EffortValues, 
-                     nature: CreatureNatureEnum, moves: Tuple[Move, Optional[Move], Optional[Move], Optional[Move]]) -> creature:
-        return creature(self.name, level, self.base_stats, individual_values, effort_values, nature, self.elements, 
+                     nature: CreatureNatureEnum, moves: Tuple[Move, Optional[Move], Optional[Move], Optional[Move]]) -> Creature:
+        return Creature(self.name, level, self.base_stats, individual_values, effort_values, nature, self.elements, 
                        moves)
+
 
 class CreatureDex:
     def __init__(self, data_path: Path):
@@ -53,5 +54,5 @@ class CreatureDex:
     def get(self, creature_name: str) -> CreatureEntry:
         stats = self._creature.get(creature_name, None)
         if stats is None:
-            raise ValueError(f"Can not get data for creature : {creature_name} as it is not in the pokedex.")
+            raise ValueError(f"Can not get data for creature : {creature_name} as it is not in the creature dex.")
         return stats

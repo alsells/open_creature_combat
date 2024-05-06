@@ -1,6 +1,9 @@
 from creature_combat.utils.extended_enums import ExtendedEnum
 
 
+#TODO: Remove emun for parser using the format MOVE_TYPE:VALUE
+# For Status effects use 3 lrt code (ex brn, psn, etc.)
+# Moved Environment effects to its own list in the Move, and run a similar parser there
 class MoveEffectEnum(ExtendedEnum):
     DAMAGE:int=0
     RAISE_P_ATK_1:int=1

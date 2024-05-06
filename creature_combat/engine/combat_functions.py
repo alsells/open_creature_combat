@@ -1,7 +1,8 @@
-from numpy.random import randint, uniform
+from numpy.random import randint, uniform, normal
 from creature_combat.engine.participant import Participant
 from creature_combat.moves.move import Move
 from creature_combat.moves.move_types import MoveTypeEnum
+from creature_combat.statuses.non_volatile_statuses import NonVolatileStatusEnum
 from creature_combat.utils.math_utils import clip
 from creature_combat.utils.mappings import DAMAGE_MAP
 
@@ -42,15 +43,14 @@ def get_type_modifier(move: Move, target: Participant) -> float:
     return mod
 
 
-
-def calculate_damge(move: Move, attacker: Participant, defender: Participant) -> int:
+def calculate_damage(move: Move, attacker: Participant, defender: Participant) -> int:
     match move.move_type:
         case MoveTypeEnum.PHYSICAL:
-            a = attacker.p_atk * stat_stage_modifier(attacker.p_atk_stage)
-            d = defender.p_def * stat_stage_modifier(defender.p_def_stage)
+            a = attacker.p_atk
+            d = defender.p_def
         case MoveTypeEnum.SPECIAL:
-            a = attacker.s_atk * stat_stage_modifier(attacker.s_atk_stage)
-            d = defender.s_def * stat_stage_modifier(defender.s_def_stage)
+            a = attacker.s_atk
+            d = defender.s_def
         case _:
             a = 0
             d = 0
@@ -65,42 +65,39 @@ def calculate_damge(move: Move, attacker: Participant, defender: Participant) ->
     return int(base * crit * random * type_modifier)
 
 
-def plarticipant_1_first(participant1: Participant, move1: Move, participant2: Participant, move2: Move) -> bool:
+def participant_1_first(participant1: Participant, move1: Move, participant2: Participant, move2: Move) -> bool:
     if move1.priority > move2.priority:
         return True
     elif move1.priority < move2.priority:
         return False
     else:
-        return participant1.spd * stat_stage_modifier(participant1.spd_stage) >= participant2.spd * stat_stage_modifier(participant2.spd_stage)
+        return participant1.spd >= participant2.spd
 
 
-def apply_status(effect_name: str, attacker: Participant, defender: Participant, self: bool) -> None:
-    modifier, stat, ammount = effect_name.split('_')
-    effected = attacker if self else defender
-    match modifier:
-        case "RAISE":
-            mod = 1
-        case "LOWER":
-            mod = -1
-        case _:
-            raise ValueError(f"Stat stage change move effect modifier was provided as {modifier} and not [RAISE or LOWER]")
-    ammount *= mod
+def adjust_stat_stage(effect_name: str, effected: Participant) -> None:
+    stat, amount  = effect_name.split(':')
+    amount = int(amount)
     match stat:
-        case "PATK":
-            effected.adjust_p_atk_stage(ammount)
-        case "PDEF":
-            effected.adjust_p_def_stage(ammount)
-        case "SATK":
-            effected.adjust_s_atk_stage(ammount)
-        case "SDEF":
-            effected.adjust_s_def_stage(ammount)
+        case "P_ATK":
+            effected.adjust_p_atk_stage(amount)
+        case "P_DEF":
+            effected.adjust_p_def_stage(amount)
+        case "S_ATK":
+            effected.adjust_s_atk_stage(amount)
+        case "S_DEF":
+            effected.adjust_s_def_stage(amount)
         case "SPD":
-            effected.adjust_spd_stage(ammount)
+            effected.adjust_spd_stage(amount)
         case "ACC":
-            effected.adjust_acc_stage(ammount)
+            effected.adjust_acc_stage(amount)
         case "EVA":
-            effected.adjust_eva_stage(ammount)
+            effected.adjust_eva_stage(amount)
         case "CRIT":
-            effected.adjust_crit_stage(ammount)
+            effected.adjust_crit_stage(amount)
         case _:
             raise ValueError(f"Unable to parse stat change category {stat}, please provide a valid stat category.")
+
+
+def apply_status_effect(effect_name: str, effected: Participant) -> None:
+    status = NonVolatileStatusEnum[effect_name]
+    effected.apply_status_non_volatile(status)
