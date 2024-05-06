@@ -8,7 +8,7 @@ class MoveList:
     def __init__(self, data_path: Path):
         assert data_path.exists(), f"Path to Move list data {data_path} is invalid"
         self.data_path = data_path
-        available_moves = [f for f in listdir(str(data_path)) if f.split('.')[-1] == 'json']
+        available_moves = [f for f in listdir(str(data_path)) if f.split('.')[0] != 'example' and f.split('.')[-1] == 'json']
         self._moves = {am.split('.')[0]: Move.from_json(self.data_path / am) for am in available_moves}
         
     @property

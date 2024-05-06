@@ -1,0 +1,29 @@
+# Move List Entry Fields:
+- "name": Name of the move as a string
+- "move_type": One of PHYSICAL, SPECIAL, STATUS
+- "element": One the following list
+    - NORMAL, FIRE, WATER, ELECTRIC, GRASS, ICE, FIGHTING, POISON, GROUND, FLYING, PSYCHIC, BUG, ROCK, GHOST, DRAGON, DARK, STEEL, FAIRY
+- "power": Power of the move as an int, if the move does not do damage, use null for this field 
+- "accuracy": Accuracy of the move on the bounds [0, 100] as an int. If the move always hits use null in this field instead.
+- "high_crit_flag": If the move naturally has a higher critical chance, set this boolean to true.
+- "self_effect": A list of effects that the move has on the user. The following are the supported string formats:
+    - "P_ATK:X" where X is any of [-3, 3]
+    - "P_DEF:X" where X is any of [-3, 3]
+    - "S_ATK:X" where X is any of [-3, 3]
+    - "S_DEF:X" where X is any of [-3, 3]
+    - "ACC:X" where X is any of [-3, 3]
+    - "EVA:X" where X is any of [-3, 3]
+    - "CRIT:X" where X is any of [0, 3]
+    - One of the following status effects:
+        - "BRN", "FRZ", "PAR", "SLP", "PSN", "BPSN"
+    - "HEAL%X" Where X is an int percentage between [0, 100]
+    - "HEAL_FLAT:X" Where X is an integer value
+    - "LIFESTEAL%:X" Where X is an int percentage between [0, 100]
+    - "LIFESTEAL_FLAT:X" Where X is an integer value
+- "opponent_effect": A list of effects that the move has on the opponent. Supports the same string formats as self_effect
+- "environment_effect": Currently unsupported, likely support strings of the following:
+    - "SUN"
+    - "RAIN"
+    - "FOG"
+    - "HAIL"
+- "max_pp": The maximum number of times the moves can be used by a creature as an int

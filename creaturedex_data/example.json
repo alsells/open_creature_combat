@@ -1,0 +1,14 @@
+{
+    "name": "Example",
+    "elements": [
+        "TYPE1", "TYPE2"
+    ],
+    "base_stats":{
+        "health_points": 24,
+        "physical_attack": 18,
+        "physical_defense": 20,
+        "special_attack": 20,
+        "special_defense": 23,
+        "speed": 20
+    }
+}

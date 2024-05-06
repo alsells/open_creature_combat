@@ -146,7 +146,7 @@ class CombatManager:
                 self._apply_action(player_1_move, player_1.participant, player_2.participant)
             self._queue_message(f"{player_2.participant.creature.name} HP: {player_2.participant.creature.write_hp}")
             self._queue_message(f"{player_1.participant.creature.name} HP: {player_1.participant.creature.write_hp}")
-        self._apply_end_turn_effects()
+        self._apply_end_turn_effects(player_1.participant, player_2.participant)
         if not player_1.participant.is_alive:
             self._queue_message(f"{player_1.participant.creature.name} has fainted!")
             player_1.swap_creature(player_2.participant)
